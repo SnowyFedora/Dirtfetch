@@ -137,7 +137,7 @@ pub const SAMPLE: &str = r#"{
 }"#;
 
 pub fn default_path() -> Option<PathBuf> {
-    dirs::config_dir().map(|d| d.join("rustfetch").join("config.json"))
+    dirs::config_dir().map(|d| d.join("dirtfetch").join("config.json"))
 }
 
 pub fn load(path: Option<&Path>) -> Config {
@@ -159,7 +159,7 @@ pub fn load(path: Option<&Path>) -> Config {
     match serde_json::from_str::<Config>(&cleaned) {
         Ok(c) => c,
         Err(e) => {
-            eprintln!("rustfetch: bad config {path:?}: {e}");
+            eprintln!("dirtfetch: bad config {path:?}: {e}");
             Config::default()
         }
     }

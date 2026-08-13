@@ -32,7 +32,7 @@ pub fn color_code(name: &str) -> String {
 }
 
 fn logos_dir() -> Option<std::path::PathBuf> {
-    dirs::config_dir().map(|d| d.join("rustfetch").join("logos"))
+    dirs::config_dir().map(|d| d.join("dirtfetch").join("logos"))
 }
 
 fn load_custom(id: &str) -> Option<Logo> {

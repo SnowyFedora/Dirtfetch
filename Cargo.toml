@@ -1,11 +1,11 @@
 [package]
-name = "rustfetch"
+name = "dirtfetch"
 version = "0.5.0"
 edition = "2021"
 license = "GPL-3.0-or-later"
 description = "fastfetch-style neon system fetch in Rust with custom ASCII logos"
 readme = "README.md"
-repository = "https://github.com/ТВОЙ_НИК/rustfetch"
+repository = "https://github.com/ТВОЙ_НИК/dirtfetch"
 keywords = ["fetch", "neofetch", "fastfetch", "system-info", "tui"]
 categories = ["command-line-utilities"]
 

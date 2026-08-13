@@ -1,4 +1,4 @@
-# rustfetch 🦀
+# dirtfetch 🦀
 
 fastfetch-style system fetch на Rust: неоновая рамка с градиентом, кастомные
 ASCII-логотипы, JSONC-конфиг и куча автоопределений.
@@ -6,7 +6,7 @@ ASCII-логотипы, JSONC-конфиг и куча автоопределе�
 ## Фишки
 
 - 🖼 **56 ASCII-логотипов** в комплекте (папка `logos/`), свои — кидай в
-  `~/.config/rustfetch/logos/<name>.txt`
+  `~/.config/dirtfetch/logos/<name>.txt`
 - 🎨 фирменные цвета дистрибутивов + маркеры `${c1}/${c2}` из neofetch-артов
 - 🌈 неоновая рамка с градиентом, `--neon`, пасхалки `--trad` и `--homo`
 - ⚙️ JSONC-конфиг как в fastfetch: комментарии, trailing commas, порядок модулей
@@ -17,24 +17,24 @@ ASCII-логотипы, JSONC-конфиг и куча автоопределе�
 
 ```bash
 # 1. клонируем репозиторий
-git clone https://github.com/SnowyFedora/rustfetch.git
-cd rustfetch
+git clone https://github.com/SnowyFedora/dirtfetch.git
+cd dirtfetch
 
 # 2. ставим бинарник в ~/.cargo/bin
 cargo install --path .
 
 # 3. копируем лого из репы в конфиг
-mkdir -p ~/.config/rustfetch/logos
-cp -r logos/* ~/.config/rustfetch/logos/
+mkdir -p ~/.config/dirtfetch/logos
+cp -r logos/* ~/.config/dirtfetch/logos/
 
 # 4. профит
-rustfetch
+dirtfetch
 ```
 
 Или совсем без клона:
 
 ```bash
-cargo install --git https://github.com/SnowyFedora/rustfetch.git
+cargo install --git https://github.com/SnowyFedora/dirtfetch.git
 ```
 
 (в этом случае лого потом всё равно докопируй из клона, см. шаг 3)
@@ -42,25 +42,25 @@ cargo install --git https://github.com/SnowyFedora/rustfetch.git
 Обновление:
 
 ```bash
-cd rustfetch && git pull && cargo install --path . --force
+cd dirtfetch && git pull && cargo install --path . --force
 ```
 
-> Если `rustfetch: command not found` — добавь `~/.cargo/bin` в PATH:
+> Если `dirtfetch: command not found` — добавь `~/.cargo/bin` в PATH:
 > `echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc`
 
 ## Установка из исходников (локально)
 
 ```bash
 cargo install --path .
-mkdir -p ~/.config/rustfetch/logos
-cp -r logos/* ~/.config/rustfetch/logos/
+mkdir -p ~/.config/dirtfetch/logos
+cp -r logos/* ~/.config/dirtfetch/logos/
 ```
 
 ## Флаги
 
 | Флаг | Что делает |
 |------|------------|
-| `-l / --logo NAME` | форсировать логотип (`rustfetch -l fedora`) |
+| `-l / --logo NAME` | форсировать логотип (`dirtfetch -l fedora`) |
 | `--list-logos` | список доступных лого |
 | `--no-logo` | без логотипа |
 | `--no-color` | без цвета (или `NO_COLOR=1`) |
@@ -76,7 +76,7 @@ cp -r logos/* ~/.config/rustfetch/logos/
 
 ## Конфиг
 
-`rustfetch --gen-config` → `~/.config/rustfetch/config.json`:
+`dirtfetch --gen-config` → `~/.config/dirtfetch/config.json`:
 
 ```jsonc
 {
@@ -95,7 +95,7 @@ cp -r logos/* ~/.config/rustfetch/logos/
 
 ## Свои логотипы
 
-Файл `~/.config/rustfetch/logos/<name>.txt`:
+Файл `~/.config/dirtfetch/logos/<name>.txt`:
 
 ```
 #color=cyan            (опционально) акцент

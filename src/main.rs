@@ -30,9 +30,9 @@ const TRAD: [(u8, u8, u8); 6] = [
 ];
 
 #[derive(Parser)]
-#[command(name = "rustfetch", version, about = "fastfetch-style system info, in Rust")]
+#[command(name = "dirtfetch", version, about = "fastfetch-style system info, in Rust")]
 struct Cli {
-    /// Форсировать логотип: rustfetch --logo debian
+    /// Форсировать логотип: dirtfetch --logo debian
     #[arg(short, long, value_name = "NAME")]
     logo: Option<String>,
 
@@ -201,7 +201,7 @@ fn main() {
         }
         match std::fs::write(&path, config::SAMPLE) {
             Ok(_) => println!("config written: {}", path.display()),
-            Err(e) => eprintln!("rustfetch: не удалось записать конфиг: {e}"),
+            Err(e) => eprintln!("dirtfetch: не удалось записать конфиг: {e}"),
         }
         return;
     }
