@@ -17,7 +17,7 @@ ASCII-логотипы, JSONC-конфиг и куча автоопределе�
 
 ```bash
 # 1. клонируем репозиторий
-git clone https://github.com/ТВОЙ_НИК/rustfetch.git
+git clone https://github.com/SnowyFedora/rustfetch.git
 cd rustfetch
 
 # 2. ставим бинарник в ~/.cargo/bin
@@ -34,7 +34,7 @@ rustfetch
 Или совсем без клона:
 
 ```bash
-cargo install --git https://github.com/ТВОЙ_НИК/rustfetch.git
+cargo install --git https://github.com/SnowyFedora/rustfetch.git
 ```
 
 (в этом случае лого потом всё равно докопируй из клона, см. шаг 3)
