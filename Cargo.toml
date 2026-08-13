@@ -1,0 +1,17 @@
+[package]
+name = "rustfetch"
+version = "0.5.0"
+edition = "2021"
+license = "GPL-3.0-or-later"
+description = "fastfetch-style neon system fetch in Rust with custom ASCII logos"
+readme = "README.md"
+repository = "https://github.com/ТВОЙ_НИК/rustfetch"
+keywords = ["fetch", "neofetch", "fastfetch", "system-info", "tui"]
+categories = ["command-line-utilities"]
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+dirs = "5"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sysinfo = "0.30"
