@@ -6,7 +6,7 @@ use std::path::PathBuf;
 
 use clap::Parser;
 
-use crate::config::{Config, ModuleSpec};
+use crate::config::ModuleSpec;
 
 /// Прайд-флаг
 const PRIDE: [(u8, u8, u8); 6] = [
@@ -56,6 +56,10 @@ struct Cli {
     #[arg(long)]
     list_logos: bool,
 
+    /// Галерея всех логотипов с цветами
+    #[arg(long)]
+    print_logos: bool,
+
     /// Сгенерировать пример config.json
     #[arg(long)]
     gen_config: bool,
@@ -77,7 +81,7 @@ struct Cli {
     no_frame: bool,
 }
 
-/// Чтобы работало в стиле одного дефиса: -help, -homo, -trad, -neon ...
+/// Чтобы работало в стиле одного дефиса: -help, -homo, -trad, -neon, -print-logos ...
 fn normalize_args() -> Vec<String> {
     std::env::args()
         .enumerate()
@@ -98,23 +102,10 @@ fn normalize_args() -> Vec<String> {
 
 struct Theme {
     enabled: bool,
-    accent: String,
+    accent: String, // код после \x1b[ , напр. "1;31" или "1;38;2;238;0;0"
 }
 
 impl Theme {
-    fn code(name: &str) -> &'static str {
-        match name {
-            "red" => "31",
-            "green" => "32",
-            "yellow" => "33",
-            "blue" => "34",
-            "magenta" => "35",
-            "cyan" => "36",
-            "white" => "37",
-            _ => "36",
-        }
-    }
-
     fn paint(&self, text: &str, code: &str) -> String {
         if self.enabled {
             format!("\x1b[{code}m{text}\x1b[0m")
@@ -124,7 +115,7 @@ impl Theme {
     }
 
     fn label(&self, text: &str) -> String {
-        self.paint(text, &format!("1;{}", self.accent))
+        self.paint(text, &self.accent)
     }
 }
 
@@ -178,6 +169,24 @@ fn framed(rows: Vec<String>, color: bool) -> Vec<String> {
     out
 }
 
+/// Первый запуск: создаём конфиг, папку лого и распаковываем встроенные лого
+fn ensure_first_run() {
+    if let Some(path) = config::default_path() {
+        if !path.exists() {
+            if let Some(parent) = path.parent() {
+                let _ = std::fs::create_dir_all(parent);
+                let _ = std::fs::create_dir_all(parent.join("logos"));
+            }
+            let _ = std::fs::write(&path, config::SAMPLE);
+            eprintln!("dirtfetch: создан конфиг {}", path.display());
+        }
+    }
+    let n = logos::install_bundled();
+    if n > 0 {
+        eprintln!("dirtfetch: установлено встроенных лого: {n}");
+    }
+}
+
 fn main() {
     let cli = Cli::parse_from(normalize_args());
 
@@ -187,6 +196,26 @@ fn main() {
         all.sort();
         all.dedup();
         println!("available logos: {}", all.join(", "));
+        return;
+    }
+
+    if cli.print_logos {
+        let mut all: Vec<String> = logos::KNOWN.iter().map(|s| s.to_string()).collect();
+        all.extend(logos::custom_names());
+        all.sort();
+        all.dedup();
+        for name in all {
+            let logo = logos::get(&name);
+            println!(
+                "\x1b[{}m── {} ──\x1b[0m",
+                logos::accent_code(&logo.color),
+                name
+            );
+            for l in &logo.lines {
+                println!("{l}");
+            }
+            println!();
+        }
         return;
     }
 
@@ -205,6 +234,9 @@ fn main() {
         }
         return;
     }
+
+    // авто-создание конфига + распаковка встроенных лого
+    ensure_first_run();
 
     let cfg = config::load(cli.config.as_deref());
     let color = !cli.no_color
@@ -230,13 +262,13 @@ fn main() {
         Some(logos::get(&id))
     };
 
-    let accent_name = cfg
+    let accent_pref = cfg
         .display
         .color
         .clone()
         .or_else(|| logo.as_ref().map(|l| l.color.clone()))
         .unwrap_or_else(|| "cyan".into());
-    let theme = Theme { enabled: color, accent: Theme::code(&accent_name).to_string() };
+    let theme = Theme { enabled: color, accent: logos::accent_code(&accent_pref) };
 
     // ─── правая колонка ─────────────────────────────────────────────
     let mut right: Vec<String> = Vec::new();
