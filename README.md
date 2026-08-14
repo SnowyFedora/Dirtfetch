@@ -1,13 +1,14 @@
-# dirtfetch 🦀
+# dirtfetch 🟤
 
 fastfetch-style system fetch на Rust: неоновая рамка с градиентом, кастомные
-ASCII-логотипы, JSONC-конфиг и куча автоопределений.
+ASCII-логотипы, JSONC-конфиг, автоопределения и **официальные цвета fastfetch**.
 
 ## Фишки
 
-- 🖼 **56 ASCII-логотипов** в комплекте (папка `logos/`), свои — кидай в
+- 🎨 **~600 дистров** с точными фирменными цветами из базы fastfetch
+  (включая 256-цветные и RGB-цвета)
+- 🖼 **500+ ASCII-логотипов** в комплекте (папка `logos/`), свои — кидай в
   `~/.config/dirtfetch/logos/<name>.txt`
-- 🎨 фирменные цвета дистрибутивов + маркеры `${c1}/${c2}` из neofetch-артов
 - 🌈 неоновая рамка с градиентом, `--neon`, пасхалки `--trad` и `--homo`
 - ⚙️ JSONC-конфиг как в fastfetch: комментарии, trailing commas, порядок модулей
 - 📦 все пакетные менеджеры: pacman, dpkg, rpm, xbps, apk, flatpak, snap
@@ -23,21 +24,15 @@ cd dirtfetch
 # 2. ставим бинарник в ~/.cargo/bin
 cargo install --path .
 
-# 3. копируем лого из репы в конфиг
-mkdir -p ~/.config/dirtfetch/logos
-cp -r logos/* ~/.config/dirtfetch/logos/
-
-# 4. профит
+# 3. профит — конфиг и лого распакует сам при первом запуске
 dirtfetch
 ```
 
-Или совсем без клона:
+Или одной командой без клона:
 
 ```bash
 cargo install --git https://github.com/SnowyFedora/dirtfetch.git
 ```
-
-(в этом случае лого потом всё равно докопируй из клона, см. шаг 3)
 
 Обновление:
 
@@ -52,8 +47,6 @@ cd dirtfetch && git pull && cargo install --path . --force
 
 ```bash
 cargo install --path .
-mkdir -p ~/.config/dirtfetch/logos
-cp -r logos/* ~/.config/dirtfetch/logos/
 ```
 
 ## Флаги
@@ -61,7 +54,8 @@ cp -r logos/* ~/.config/dirtfetch/logos/
 | Флаг | Что делает |
 |------|------------|
 | `-l / --logo NAME` | форсировать логотип (`dirtfetch -l fedora`) |
-| `--list-logos` | список доступных лого |
+| `--list-logos` | список доступных лого (одной строкой) |
+| `--print-logos` | **галерея всех лого с цветами** (пейпай в `less -R`) |
 | `--no-logo` | без логотипа |
 | `--no-color` | без цвета (или `NO_COLOR=1`) |
 | `--no-frame` | отключить неоновую рамку |
@@ -105,10 +99,35 @@ cp -r logos/* ~/.config/dirtfetch/logos/
                  ...сам арт...
 ```
 
+Для многоцветного арта ставь маркеры прямо в тексте:
+
+```
+    ${c1}   /\
+    ${c1}  /  \
+    ${c2} |  \  \
+```
+
 Приоритет: твой txt → встроенный арт. Имя файла = имя для `-l`.
+
+## Цвета дистров
+
+Все цвета берутся из **официальной базы fastfetch** (вшита в бинарник):
+~600 дистров, включая точные 256-цветные и RGB-цвета. Если для какого-то
+дистра в базе нет записи — применяется семейное правило или уникальный
+стабильный цвет из хэша имени.
+
+Посмотреть галерею всех лого с цветами:
+
+```bash
+dirtfetch --print-logos | less -R
+```
 
 ## Зависимости
 
-Только crates: `clap`, `dirs`, `serde`, `serde_json`, `sysinfo`.
+Только crates: `clap`, `dirs`, `include_dir`, `serde`, `serde_json`, `sysinfo`.
 Системных зависимостей нет (всё через `/proc`, `/sys`, env и `lspci`/`xrandr`,
 если они есть).
+
+## Лицензия
+
+[GPL-3.0-or-later](LICENSE)
